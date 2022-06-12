@@ -5,7 +5,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>404 Not Found!</title>
+    <title>500 Internal server error!</title>
     <!-- base:css -->
     <link rel="stylesheet" href="{{ asset('dist/vendors/typicons/typicons.css') }}">
     <link rel="stylesheet" href="{{ asset('dist/vendors/css/vendor.bundle.base.css') }}">
