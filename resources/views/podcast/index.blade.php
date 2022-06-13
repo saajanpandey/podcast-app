@@ -59,20 +59,38 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                <div class="d-flex align-items-center">
-                                                    <a class="btn btn-success btn-sm btn-icon-text mr-3"
-                                                        href="{{ route('podcasts.edit', $podcast->id) }}">
-                                                        Edit
-                                                        <i class="typcn typcn-edit btn-icon-append"></i>
-                                                    </a>
+                                                <a class="btn btn-primary btn-sm btn-icon-text "
+                                                    href="{{ route('podcasts.edit', $podcast->id) }}">
+                                                    Edit
+                                                    <i class="typcn typcn-edit btn-icon-append"></i>
+                                                </a>
 
-                                                    <button type="button" class="btn btn-danger btn-sm btn-icon-text"
-                                                        data-bs-toggle="modal" data-bs-target="#deleteModal"
-                                                        data-action="{{ route('podcasts.destroy', $podcast->id) }}">
-                                                        Delete
-                                                        <i class="typcn typcn-delete-outline btn-icon-append"></i>
-                                                    </button>
-                                                </div>
+                                                <a class="btn btn-info btn-sm btn-icon-text"
+                                                    href="{{ route('podcasts.show', $podcast->id) }}">
+                                                    View
+                                                    <i class="typcn typcn-eye"></i>
+                                                </a>
+
+                                                <button type="button" class="btn btn-danger btn-sm btn-icon-text"
+                                                    data-bs-toggle="modal" data-bs-target="#deleteModal"
+                                                    data-action="{{ route('podcasts.destroy', $podcast->id) }}">
+                                                    Delete
+                                                    <i class="typcn typcn-delete-outline btn-icon-append"></i>
+                                                </button>
+
+                                                <button type="button" class="btn btn-secondary btn-sm btn-icon-text"
+                                                    data-bs-toggle="modal" data-bs-target="#imageModal"
+                                                    data-action="{{ route('podcast.image', $podcast->id) }}">
+                                                    Image Upload
+                                                    <i class="typcn typcn-upload"></i>
+                                                </button>
+
+                                                <button type="button" class="btn btn-secondary btn-sm btn-icon-text"
+                                                    data-bs-toggle="modal" data-bs-target="#audioModal"
+                                                    data-action="{{ route('podcast.audio', $podcast->id) }}">
+                                                    Audio Upload
+                                                    <i class="typcn typcn-upload"></i>
+                                                </button>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -112,10 +130,71 @@
             </div>
         </div>
     </div>
+
+    {{-- Image upload --}}
+    <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Upload Image</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <input type="file" name="image">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+                    <button type="submit" class="btn btn-primary" id="modal-confirm_delete" onclick="">Image Upload</button>
+                    </form>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    {{-- Audio upload --}}
+    <div class="modal fade" id="audioModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Audio Image</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <input type="file" name="audio">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+                    <button type="submit" class="btn btn-primary" id="modal-confirm_delete" onclick="">Audio Upload</button>
+                    </form>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
 @endsection
 @section('scripts')
     <script>
         $('#deleteModal').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget);
+            var action = button.data('action');
+            var modal = $(this);
+            modal.find('form').attr('action', action);
+        });
+
+        $('#imageModal').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget);
+            var action = button.data('action');
+            var modal = $(this);
+            modal.find('form').attr('action', action);
+        });
+
+        $('#audioModal').on('show.bs.modal', function(event) {
             var button = $(event.relatedTarget);
             var action = button.data('action');
             var modal = $(this);

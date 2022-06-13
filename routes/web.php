@@ -34,6 +34,8 @@ Route::group(['prefix' => 'system'], function () {
         $route->get('/change-password', [ChangePasswordController::class, 'changeForm'])->name('changepassword.form');
         $route->post('/change-password', [ChangePasswordController::class, 'store'])->name('changepassword.store');
         $route->resource('/podcasts', PodcastController::class);
+        $route->post('/image/upload/{id}', [PodcastController::class, 'updateImage'])->name('podcast.image');
+        $route->post('/audio/upload/{id}', [PodcastController::class, 'updateAudio'])->name('podcast.audio');
         $route->get('/feedbacks', [FeedbackController::class, 'index'])->name('feedback.index');
     });
 });

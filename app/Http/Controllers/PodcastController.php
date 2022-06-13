@@ -69,7 +69,8 @@ class PodcastController extends Controller
      */
     public function show($id)
     {
-        //
+        $podcast = Podcast::find($id);
+        return view('podcast.view', compact('podcast'));
     }
 
     /**
@@ -122,5 +123,34 @@ class PodcastController extends Controller
         }
         $podcast->delete();
         return redirect()->route('podcasts.index')->with('delete', 'Podcast Deleted Successfully !');
+    }
+
+    public function updateAudio(Request $request, $id)
+    {
+        $request->validate([
+            'audio' => 'required|mimes:application/octet-stream,audio/mpeg,mpga,mp3,wav',
+        ]);
+        $podcast = Podcast::find($id);
+        if (!empty($podcast->audio)) {
+            $this->removeAudio($this->audioDir, $podcast->audio);
+            $podcast->audio = $this->uploadAudio($this->audioDir, $request->audio);
+            $podcast->save();
+            return redirect()->route('podcasts.index')->with('update', 'Audio Updated Successfully!');
+        }
+    }
+
+    public function updateImage(Request $request, $id)
+    {
+        $request->validate([
+            'image' => 'required|image|mimes:jpeg,png,jpg',
+        ]);
+
+        $podcast = Podcast::find($id);
+        if (!empty($podcast->image)) {
+            $this->removeImage($this->imageDir, $podcast->image);
+            $podcast->image = $this->uploadImage($this->imageDir, $request->image);
+            $podcast->save();
+            return redirect()->route('podcasts.index')->with('update', 'Image Updated Successfully!');
+        }
     }
 }
