@@ -62,9 +62,6 @@ class UserController extends Controller
         $user->name = $request->name;
         $user->gender = $request->gender;
         $user->date_of_birth = $request->date_of_birth;
-        if ($request->hasFile('avatar')) {
-            $user->avatar = $this->uploadImage($this->imageDir, $request->avatar);
-        }
         $status = $user->save();
         if ($status) {
             return response(['message' => 'User Updated Successfully.', 'status' => 'ok']);
@@ -72,13 +69,6 @@ class UserController extends Controller
             return response(['message' => 'User Not Found!']);
         }
     }
-
-    // public function profileImage(Request $request)
-    // {
-    //     $user = User::find(auth()->user()->id);
-    //     if ($request->hasFile('avatar')) {
-    //     }
-    // }
 
     /**
      * Remove the specified resource from storage.
@@ -101,5 +91,22 @@ class UserController extends Controller
     {
         $artists = Artist::count();
         return $artists;
+    }
+    public function updateImage(Request $request)
+    {
+        $user = User::find(auth()->user()->id);
+        if (!empty($user->image)) {
+            $this->removeImage($this->imageDir, $user->image);
+            $user->image = $this->uploadImage($this->imageDir, $request->image);
+            $status = $user->save();
+        } else {
+            $user->avatar = $this->uploadImage($this->imageDir, $request->avatar);
+            $status = $user->save();
+        }
+        if ($status) {
+            return response(['message' => 'Profile Image Updated Successfully.', 'status' => 'ok']);
+        } else {
+            return response(['message' => 'User Not Found!']);
+        }
     }
 }

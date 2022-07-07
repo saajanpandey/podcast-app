@@ -74,4 +74,11 @@ class FavouriteController extends Controller
     {
         //
     }
+
+    public function userFavourite()
+    {
+        $user_id = auth()->user()->id;
+        $data = Favourites::where('user_id', $user_id)->get();
+        return $data;
+    }
 }

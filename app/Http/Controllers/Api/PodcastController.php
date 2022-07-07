@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\PodcastResource;
 use App\Models\Podcast;
 use Illuminate\Http\Request;
+use PDO;
 use Resposne;
 
 class PodcastController extends Controller
@@ -80,5 +81,15 @@ class PodcastController extends Controller
     {
         $podcast = Podcast::count();
         return $podcast;
+    }
+
+    public function search(Request $request)
+    {
+        $keyword = $request->keyword;
+        $data = Podcast::where('title', 'ILIKE', $keyword)->get();
+        if ($data->isEmpty()) {
+            return response(['message' => 'Podcast Not Found!']);
+        }
+        return PodcastResource::collection($data);
     }
 }

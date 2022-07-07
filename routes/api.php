@@ -35,6 +35,9 @@ Route::group(['prefix' => 'v1'], function ($api) {
         $api->put('/update/profile', [UserController::class, 'updateProfile']);
         $api->get('/logout', [LoginController::class, 'logout']);
         $api->apiResource('/favourites', FavouriteController::class);
+        $api->get('/user-favourite', [FavouriteController::class, 'userFavourite']);
         $api->apiResource('/podcasts', PodcastController::class);
+        $api->put('/user-image', [UserController::class, 'updateImage']);
+        $api->get('/search-podcast', [PodcastController::class, 'search']);
     });
 });
