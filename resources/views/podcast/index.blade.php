@@ -81,7 +81,7 @@
                                                 <button type="button" class="btn btn-secondary btn-sm btn-icon-text"
                                                     data-bs-toggle="modal" data-bs-target="#imageModal"
                                                     data-action="{{ route('podcast.image', $podcast->id) }}">
-                                                    Image Upload
+                                                    Thumbnail upload
                                                     <i class="typcn typcn-upload"></i>
                                                 </button>
 
@@ -123,7 +123,8 @@
                     <form action="" method="POST">
                         @method('DELETE')
                         @csrf
-                        <button type="submit" class="btn btn-danger" id="modal-confirm_delete" onclick="">Delete</button>
+                        <button type="submit" class="btn btn-danger" id="modal-confirm_delete"
+                            onclick="">Delete</button>
                     </form>
                 </div>
                 </form>
@@ -147,7 +148,8 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
 
-                    <button type="submit" class="btn btn-primary" id="modal-confirm_delete" onclick="">Image Upload</button>
+                    <button type="submit" class="btn btn-primary" id="modal-confirm_delete" onclick="">Image
+                        Upload</button>
                     </form>
                 </div>
                 </form>
@@ -170,7 +172,8 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
 
-                    <button type="submit" class="btn btn-primary" id="modal-confirm_delete" onclick="">Audio Upload</button>
+                    <button type="submit" class="btn btn-primary" id="modal-confirm_delete" onclick="">Audio
+                        Upload</button>
                     </form>
                 </div>
                 </form>

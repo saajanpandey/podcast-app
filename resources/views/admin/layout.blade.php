@@ -36,7 +36,8 @@
                             src="{{ asset('dist/image/whitelogo.png') }}" alt="logo" /></a>
                     <a class="navbar-brand brand-logo-mini" href="{{ route('admin.dashboard') }}"><img
                             src="{{ asset('dist/image/whitelogo.png') }}" alt="logo" /></a>
-                    <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
+                    <button class="navbar-toggler navbar-toggler align-self-center" type="button"
+                        data-toggle="minimize">
                         <span class="typcn typcn-th-menu"></span>
                     </button>
                 </div>
@@ -49,10 +50,10 @@
                             <span class="nav-profile-name">{{ Auth::user()->name }}</span>
                         </a>
                     </li>
-                    <li class="nav-item nav-user-status dropdown">
+                    {{-- <li class="nav-item nav-user-status dropdown">
                         <p class="mb-0">Last login was
                             {{ \Carbon\Carbon::parse(Auth::user()->last_login_at)->diffForHumans() }}</p>
-                    </li>
+                    </li> --}}
                 </ul>
                 <ul class="navbar-nav navbar-nav-right">
                     <li class="nav-item nav-date dropdown">

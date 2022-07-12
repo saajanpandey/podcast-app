@@ -18,7 +18,7 @@ class PodcastController extends Controller
      */
     public function index()
     {
-        $podcasts = Podcast::where('status', 1)->get();
+        $podcasts = Podcast::where('status', 1)->latest()->get();
         return  PodcastResource::collection($podcasts);
     }
 

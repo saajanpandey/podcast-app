@@ -35,7 +35,7 @@
                                                 {{ $feedback->title ?? '-' }}
                                             </td>
                                             <td>
-                                                {{ $feedback->email ?? '-' }}
+                                                {{ $feedback->message ?? '-' }}
                                             </td>
 
                                         </tr>

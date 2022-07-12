@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\FavouriteController;
+use App\Http\Controllers\Api\FeedbackController;
 use App\Http\Controllers\Api\PodcastController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Auth\LoginController;
@@ -39,5 +40,6 @@ Route::group(['prefix' => 'v1'], function ($api) {
         $api->apiResource('/podcasts', PodcastController::class);
         $api->put('/user-image', [UserController::class, 'updateImage']);
         $api->get('/search-podcast', [PodcastController::class, 'search']);
+        $api->apiResource('/feedback', FeedbackController::class);
     });
 });

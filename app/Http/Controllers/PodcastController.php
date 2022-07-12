@@ -153,4 +153,10 @@ class PodcastController extends Controller
             return redirect()->route('podcasts.index')->with('update', 'Image Updated Successfully!');
         }
     }
+
+    public function list()
+    {
+        $podcast = Podcast::count();
+        return $podcast;
+    }
 }

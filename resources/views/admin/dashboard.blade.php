@@ -1,4 +1,4 @@
-@inject('podcast', 'App\Http\Controllers\Api\PodcastController')
+@inject('podcast', 'App\Http\Controllers\PodcastController')
 @inject('user', 'App\Http\Controllers\Api\UserController')
 @extends('admin.layout')
 @section('title', 'DashBoard')

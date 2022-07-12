@@ -4,7 +4,10 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\FavouriteRequest;
+use App\Http\Resources\FavouriteResource;
+use App\Http\Resources\PodcastResource;
 use App\Models\Favourites;
+use App\Models\Podcast;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -70,15 +73,24 @@ class FavouriteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        //
+        $user_id = auth()->user()->id;
+        $podcast_id = $request->podcast_id;
+        $favourite = Favourites::where('user_id', $user_id)->where('podcast_id', $podcast_id)->get();
+        $status = $favourite->delete();
+        if ($status) {
+            return response(['message' => 'Removed as favourite.', 'status' => 'ok']);
+        } else {
+            return response(['message' => 'Podcast Not Found!']);
+        }
     }
 
     public function userFavourite()
     {
         $user_id = auth()->user()->id;
-        $data = Favourites::where('user_id', $user_id)->get();
-        return $data;
+        $data = Favourites::where('user_id', $user_id)->pluck('podcast_id');
+        $podcast = Podcast::whereIn('id', $data)->get();
+        return PodcastResource::collection($podcast);
     }
 }
