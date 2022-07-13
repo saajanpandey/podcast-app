@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PodcastResource;
+use App\Models\Favourites;
 use App\Models\Podcast;
 use Illuminate\Http\Request;
 use PDO;
@@ -18,7 +19,11 @@ class PodcastController extends Controller
      */
     public function index()
     {
-        $podcasts = Podcast::where('status', 1)->latest()->get();
+        $user_id = auth()->user()->id;
+        $data = Favourites::where('user_id', $user_id)->pluck('podcast_id');
+        $podcasts = Podcast::where('status', 1)->with(['favourite' => function ($query) use ($user_id) {
+            $query->where('user_id', $user_id);
+        }])->latest()->get();
         return  PodcastResource::collection($podcasts);
     }
 

@@ -19,4 +19,8 @@ class Podcast extends Model
     {
         return $this->belongsTo(Category::class, 'category_id', 'id');
     }
+    public function favourite()
+    {
+        return $this->hasMany(Favourites::class, 'podcast_id', 'id');
+    }
 }

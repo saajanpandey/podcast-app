@@ -22,6 +22,7 @@ class PodcastResource extends JsonResource
             'artist' => $this->artist->name,
             'image' => asset('/uploads/images/' . $this->image),
             'audio' => asset('/uploads/audios/' . $this->audio),
+            'favourite' => !$this->favourite->isEmpty(),
         ];
     }
 }

@@ -36,7 +36,12 @@ class FavouriteController extends Controller
         $favourite = new Favourites();
         $favourite->user_id = $user_id;
         $favourite->podcast_id = $podcast_id;
-        $status = $favourite->save();
+        $check = Favourites::where('podcast_id', $podcast_id)->count();
+        if ($check > 0) {
+            return response(['message' => 'Already Marked as favourite.', 'status' => 'ok']);
+        } else {
+            $status = $favourite->save();
+        }
         if ($status) {
             return response(['message' => 'Marked as favourite.', 'status' => 'ok']);
         } else {
@@ -76,8 +81,8 @@ class FavouriteController extends Controller
     public function destroy(Request $request, $id)
     {
         $user_id = auth()->user()->id;
-        $podcast_id = $request->podcast_id;
-        $favourite = Favourites::where('user_id', $user_id)->where('podcast_id', $podcast_id)->get();
+        $podcast_id = $id;
+        $favourite = Favourites::where('user_id', $user_id)->where('podcast_id', $podcast_id);
         $status = $favourite->delete();
         if ($status) {
             return response(['message' => 'Removed as favourite.', 'status' => 'ok']);
@@ -90,7 +95,7 @@ class FavouriteController extends Controller
     {
         $user_id = auth()->user()->id;
         $data = Favourites::where('user_id', $user_id)->pluck('podcast_id');
-        $podcast = Podcast::whereIn('id', $data)->get();
+        $podcast = Podcast::whereIn('id', $data)->latest()->get();
         return PodcastResource::collection($podcast);
     }
 }
