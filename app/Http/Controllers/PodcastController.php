@@ -129,8 +129,9 @@ class PodcastController extends Controller
     public function updateAudio(Request $request, $id)
     {
         $request->validate([
-            'audio' => 'required|mimes:application/octet-stream,audio/mpeg,mpga,mp3,wav',
+            'audio' => 'required',
         ]);
+
         $podcast = Podcast::find($id);
         if (!empty($podcast->audio)) {
             $this->removeAudio($this->audioDir, $podcast->audio);
