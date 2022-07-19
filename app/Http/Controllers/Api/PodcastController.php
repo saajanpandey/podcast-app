@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\PodcastListResource;
 use App\Http\Resources\PodcastResource;
 use App\Models\Favourites;
+use App\Models\Play;
 use App\Models\Podcast;
+use App\Models\User;
 use Illuminate\Http\Request;
 use PDO;
 use Resposne;
@@ -21,6 +24,7 @@ class PodcastController extends Controller
     {
         $user_id = auth()->user()->id;
         $data = Favourites::where('user_id', $user_id)->pluck('podcast_id');
+        $user = User::where('id', $user_id)->first();
         $podcasts = Podcast::where('status', 1)->with(['favourite' => function ($query) use ($user_id) {
             $query->where('user_id', $user_id);
         }])->latest()->get();
@@ -96,5 +100,26 @@ class PodcastController extends Controller
             return response(['message' => 'Podcast Not Found!']);
         }
         return PodcastResource::collection($data);
+    }
+
+    public function plays(Request $request)
+    {
+        $user_id = auth()->user()->id;
+        $podcast_id = $request->podcast_id;
+        $play = new Play();
+        $play->user_id = $user_id;
+        $play->podcast_id = $podcast_id;
+        $checkIds = Play::where('user_id', $user_id)->where('podcast_id', $podcast_id)->get();
+        if ($checkIds->isEmpty()) {
+            $play->save();
+        } else {
+            return null;
+        }
+    }
+
+    public function listAll()
+    {
+        $podcasts = Podcast::where('status', 1)->orderBy('title', 'ASC')->get();
+        return  PodcastListResource::collection($podcasts);
     }
 }

@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class PodcastResource extends JsonResource
+class PodcastListResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -22,8 +22,6 @@ class PodcastResource extends JsonResource
             'artist' => $this->artist->name,
             'image' => asset('/uploads/images/' . $this->image),
             'audio' => asset('/uploads/audios/' . $this->audio),
-            'favourite' => !$this->favourite->isEmpty(),
-            'name' => auth()->user()->name,
         ];
     }
 }

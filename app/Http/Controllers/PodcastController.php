@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\PodcastRequest;
 use App\Models\Artist;
 use App\Models\Category;
+use App\Models\Play;
 use App\Models\Podcast;
 use App\Traits\AudioTrait;
 use App\Traits\ImageTrait;
@@ -25,7 +26,7 @@ class PodcastController extends Controller
      */
     public function index()
     {
-        $podcasts = Podcast::paginate(10);
+        $podcasts = Podcast::with('plays')->paginate(10);
         return view('podcast.index', compact('podcasts'));
     }
 
@@ -158,5 +159,11 @@ class PodcastController extends Controller
     {
         $podcast = Podcast::count();
         return $podcast;
+    }
+
+    public function plays()
+    {
+        $plays = Play::count();
+        return $plays;
     }
 }

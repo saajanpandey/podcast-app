@@ -26,7 +26,7 @@
                                             Category
                                         </th>
                                         <th>
-                                            Published Date
+                                            Total Plays
                                         </th>
                                         <th>
                                             Status
@@ -48,8 +48,8 @@
                                             <td>
                                                 {{ $podcast->category->title ?? '-' }}
                                             </td>
-                                            <td>
-                                                {{ \Carbon\Carbon::parse($podcast->created_at)->toDateString() }}
+                                            <td class="text-center">
+                                                {{ $podcast->plays->count() }}
                                             </td>
                                             <td>
                                                 @if ($podcast->status == 1)

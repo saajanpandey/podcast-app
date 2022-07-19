@@ -38,8 +38,10 @@ Route::group(['prefix' => 'v1'], function ($api) {
         $api->apiResource('/favourites', FavouriteController::class);
         $api->get('/user-favourite', [FavouriteController::class, 'userFavourite']);
         $api->apiResource('/podcasts', PodcastController::class);
+        $api->post('/plays', [PodcastController::class, 'plays']);
         $api->put('/user-image', [UserController::class, 'updateImage']);
         $api->get('/search-podcast', [PodcastController::class, 'search']);
         $api->apiResource('/feedback', FeedbackController::class);
+        $api->get('/podcast-list', [PodcastController::class, 'listAll']);
     });
 });

@@ -23,4 +23,8 @@ class Podcast extends Model
     {
         return $this->hasMany(Favourites::class, 'podcast_id', 'id');
     }
+    public function plays()
+    {
+        return $this->hasMany(Play::class, 'podcast_id', 'id');
+    }
 }
