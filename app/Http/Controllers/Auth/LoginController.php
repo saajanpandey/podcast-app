@@ -9,6 +9,7 @@ use App\Http\Resources\TokenResource;
 use App\Http\Resources\UserResource;
 use App\Models\Admin;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Str;
@@ -33,13 +34,18 @@ class LoginController extends Controller
     {
         $data = $request->all();
         $data['password'] = Hash::make($request->password);
-        $user = User::create($data);
-        if ($user) {
-            $randomText =  hash_hmac('sha256', Str::random(40), config('app.key'));
-            $token = $user->createToken($randomText)->plainTextToken;
-            return new TokenResource($token);
+        $age = Carbon::parse($data['date_of_birth'])->diff(Carbon::now())->format('%y');
+        if ($age > 16) {
+            $user = User::create($data);
+            if ($user) {
+                $randomText =  hash_hmac('sha256', Str::random(40), config('app.key'));
+                $token = $user->createToken($randomText)->plainTextToken;
+                return new TokenResource($token);
+            } else {
+                return response(['message' => 'No Data Created!']);
+            }
         } else {
-            return response(['message' => 'No Data Created!']);
+            return response(['message' => 'Age Should Be Greater Than 16.']);
         }
     }
 
