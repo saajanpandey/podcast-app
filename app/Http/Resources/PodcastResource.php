@@ -24,6 +24,7 @@ class PodcastResource extends JsonResource
             'audio' => asset('/uploads/audios/' . $this->audio),
             'favourite' => !$this->favourite->isEmpty(),
             'name' => auth()->user()->name,
+            'play' => $this->plays->count(),
         ];
     }
 }

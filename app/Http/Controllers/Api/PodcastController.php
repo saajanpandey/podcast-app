@@ -27,7 +27,7 @@ class PodcastController extends Controller
         $user = User::where('id', $user_id)->first();
         $podcasts = Podcast::where('status', 1)->with(['favourite' => function ($query) use ($user_id) {
             $query->where('user_id', $user_id);
-        }])->latest()->get();
+        }])->with(['plays'])->latest()->get();
         return  PodcastResource::collection($podcasts);
     }
 
