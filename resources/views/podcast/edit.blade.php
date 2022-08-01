@@ -41,12 +41,11 @@
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <label for="exampleInputName1">Category</label>
-                                <select class="form-control @error('category_id') is-invalid @enderror" name="category_id">
-                                    <option value="" disabled selected>Select a category</option>
+                                <label>Categories</label>
+                                <select class="js-example-basic-multiple w-100" multiple="multiple" name="category_id[]">
                                     @foreach ($categories as $category)
                                         <option value="{{ $category->id }}"
-                                            {{ $podcast->category_id == $category->id ? 'selected' : '' }}>
+                                            {{ in_array($category->id, $selected_categories) == 1 ? 'selected' : '' }}>
                                             {{ $category->title }}</option>
                                     @endforeach
                                 </select>

@@ -46,7 +46,9 @@
                                                 {{ $podcast->artist->name ?? '-' }}
                                             </td>
                                             <td>
-                                                {{ $podcast->category->title ?? '-' }}
+                                                @foreach ($podcast->categories as $category)
+                                                    <li>{{ $category->title }}</li>
+                                                @endforeach
                                             </td>
                                             <td class="text-center">
                                                 {{ $podcast->plays->count() }}

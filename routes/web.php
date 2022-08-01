@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\AdminLoginController;
 use App\Http\Controllers\Auth\ChangePasswordController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\PodcastController;
 use App\Models\Podcast;
@@ -37,5 +38,6 @@ Route::group(['prefix' => 'system'], function () {
         $route->post('/image/upload/{id}', [PodcastController::class, 'updateImage'])->name('podcast.image');
         $route->post('/audio/upload/{id}', [PodcastController::class, 'updateAudio'])->name('podcast.audio');
         $route->get('/feedbacks', [FeedbackController::class, 'index'])->name('feedback.index');
+        $route->resource('/category', CategoryController::class);
     });
 });

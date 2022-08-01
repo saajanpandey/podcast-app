@@ -38,10 +38,21 @@
                                     </span>
                                 @enderror
                             </div>
-                            <div class="form-group">
+                            {{-- <div class="form-group">
                                 <label for="exampleInputName1">Category</label>
-                                <select class="form-control @error('category_id') is-invalid @enderror" name="category_id">
-                                    <option value="" disabled selected>Select a category</option>
+                                <select
+                                    class="form-control js-example-basic-multiple  @error('category_id') is-invalid @enderror"
+                                    name="category_id" multiple="multiple">
+
+
+                                </select>
+
+                            </div> --}}
+
+                            <div class="form-group">
+                                <label>Categories</label>
+                                <select class="js-example-basic-multiple w-100" multiple="multiple" name="category_id[]">
+                                    <option value="" disabled>Select Categories</option>
                                     @foreach ($categories as $category)
                                         <option value="{{ $category->id }}">{{ $category->title }}</option>
                                     @endforeach
@@ -52,6 +63,7 @@
                                     </span>
                                 @enderror
                             </div>
+
                             <div class="form-group">
                                 <label>Thumbnail upload</label>
                                 <input type="file" name="image"

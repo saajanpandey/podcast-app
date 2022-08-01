@@ -25,7 +25,11 @@
                                     </tr>
                                     <tr>
                                         <td>Podcast Category</td>
-                                        <td>{{ $podcast->category->title ?? '-' }}</td>
+                                        <td>
+                                            @foreach ($podcast->categories as $category)
+                                                <li>{{ $category->title ?? '-' }}</li>
+                                            @endforeach
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td>Podcast Published Date</td>

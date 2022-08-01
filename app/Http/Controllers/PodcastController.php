@@ -26,7 +26,7 @@ class PodcastController extends Controller
      */
     public function index()
     {
-        $podcasts = Podcast::with('plays')->paginate(10);
+        $podcasts = Podcast::with('plays', 'categories')->paginate(10);
         return view('podcast.index', compact('podcasts'));
     }
 
@@ -58,7 +58,10 @@ class PodcastController extends Controller
             $data['audio'] = $this->uploadAudio($this->audioDir, $request->audio);
             $f1 = storage_path() . $this->audioDir . '/' . $data['audio'];
         }
-        Podcast::create($data);
+        $podcast = Podcast::create($data);
+        foreach ($data['category_id'] as $category) {
+            $podcast->categories()->attach($category);
+        }
         return redirect()->route('podcasts.index')->with('create', 'Podcast Created Successfully !');
     }
 
@@ -85,7 +88,11 @@ class PodcastController extends Controller
         $podcast = Podcast::find($id);
         $artists = Artist::get();
         $categories = Category::get();
-        return view('podcast.edit', compact('podcast', 'artists', 'categories'));
+        $selected_categories = [];
+        foreach ($podcast->categories as $category) {
+            array_push($selected_categories, $category->id);
+        }
+        return view('podcast.edit', compact('podcast', 'artists', 'categories', 'selected_categories'));
     }
 
     /**
@@ -100,10 +107,13 @@ class PodcastController extends Controller
         $data = $request->all();
         $podcast = Podcast::find($id);
         $podcast->title = $data['title'];
-        $podcast->category_id = $data['category_id'];
         $podcast->artist_id = $data['artist_id'];
         $podcast->status = $data['status'];
         $podcast->save();
+        $podcast->categories()->detach();
+        foreach ($data['category_id'] as $category) {
+            $podcast->categories()->attach($category);
+        }
         return redirect()->route('podcasts.index')->with('update', 'Podcast Updated Successfully !');
     }
 
@@ -122,6 +132,7 @@ class PodcastController extends Controller
         if (!empty($podcast->audio)) {
             $this->removeAudio($this->audioDir, $podcast->audio);
         }
+        $podcast->categories()->detach();
         $podcast->delete();
         return redirect()->route('podcasts.index')->with('delete', 'Podcast Deleted Successfully !');
     }

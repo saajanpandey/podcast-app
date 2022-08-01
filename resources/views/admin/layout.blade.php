@@ -24,6 +24,8 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- endinject -->
     <link rel="shortcut icon" href="{{ asset('dist/image/whitelogo.png') }}" />
+    <link rel="stylesheet" href="{{ asset('dist/vendors/select2/select2.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('dist/vendors/select2-bootstrap-theme/select2-bootstrap.min.css') }}">
 </head>
 
 <body class="sidebar-dark">
@@ -383,6 +385,12 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="{{ route('category.index') }}">
+                            <i class="fa-solid fa-list menu-icon"></i>
+                            <span class="menu-title">Categories</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="{{ route('feedback.index') }}">
                             <i class="fa-solid fa-rss menu-icon"></i>
                             <span class="menu-title">Feedbacks</span>
@@ -435,6 +443,8 @@
     <script src="{{ asset('dist/js/dashboard.js') }}"></script>
     <script src="{{ asset('dist/js/file-upload.js') }}"></script>
     <script src="{{ asset('dist/build/toastr.min.js') }}"></script>
+    <script src="{{ asset('dist/vendors/select2/select2.min.js') }}"></script>
+    <script src="{{ asset('dist/js/select2.js') }}"></script>
     @yield('scripts')
     <script>
         @if (Session::has('delete'))

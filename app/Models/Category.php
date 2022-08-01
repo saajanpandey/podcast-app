@@ -10,4 +10,9 @@ class Category extends Model
     use HasFactory;
 
     protected $fillable = ['title'];
+
+    public function podcasts()
+    {
+        return $this->belongsToMany(Podcast::class, 'podcast_categories', 'category_id', 'podcast_id');
+    }
 }
