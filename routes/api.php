@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\ApiCategoryController;
 use App\Http\Controllers\Api\ChangePasswordController;
 use App\Http\Controllers\Api\FavouriteController;
 use App\Http\Controllers\Api\FeedbackController;
@@ -45,5 +46,7 @@ Route::group(['prefix' => 'v1'], function ($api) {
         $api->apiResource('/feedback', FeedbackController::class);
         $api->get('/podcast-list', [PodcastController::class, 'listAll']);
         $api->post('/change-password', [ChangePasswordController::class, 'store']);
+        $api->get('/category', [ApiCategoryController::class, 'index']);
+        $api->get('/category-podcast', [ApiCategoryController::class, 'podcastList']);
     });
 });

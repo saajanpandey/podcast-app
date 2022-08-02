@@ -24,6 +24,23 @@
                                     </span>
                                 @enderror
                             </div>
+                            <div class="form-group">
+                                <label>Image upload</label>
+                                <input type="file" name="image"
+                                    class="file-upload-default @error('image') is-invalid @enderror">
+                                <div class="input-group col-xs-12">
+                                    <input type="text" class="form-control  file-upload-info" disabled
+                                        placeholder="Image upload">
+                                    <span class="input-group-append">
+                                        <button class="file-upload-browse btn btn-primary" type="button">Upload</button>
+                                    </span>
+                                </div>
+                                @error('image')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
                             <button type="submit" class="btn btn-primary mr-2">Submit</button>
                         </form>
                     </div>

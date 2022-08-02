@@ -20,6 +20,9 @@
                                             Title
                                         </th>
                                         <th>
+                                            Image
+                                        </th>
+                                        <th>
                                             Action
                                         </th>
                                     </tr>
@@ -31,16 +34,21 @@
                                                 {{ $category->title ?? '-' }}
                                             </td>
                                             <td>
-                                                {{-- <a class="btn btn-primary btn-sm btn-icon-text "
-                                                    href="{{ route('category.edit', $category->id) }}">
-                                                    Edit
-                                                    <i class="typcn typcn-edit btn-icon-append"></i>
-                                                </a> --}}
+                                                <img src="{{ '/uploads/category/' . $category->image }}" alt="-"
+                                                    width="200px" height="200px">
+                                            </td>
+                                            <td>
                                                 <button type="button" class="btn btn-danger btn-sm btn-icon-text"
                                                     data-bs-toggle="modal" data-bs-target="#deleteModal"
                                                     data-action="{{ route('category.destroy', $category->id) }}">
                                                     Delete
                                                     <i class="typcn typcn-delete-outline btn-icon-append"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-secondary btn-sm btn-icon-text"
+                                                    data-bs-toggle="modal" data-bs-target="#imageModal"
+                                                    data-action="{{ route('category.image', $category->id) }}">
+                                                    Image upload
+                                                    <i class="typcn typcn-upload"></i>
                                                 </button>
                                             </td>
                                         </tr>
@@ -83,6 +91,31 @@
         </div>
     </div>
 
+    {{-- Image upload --}}
+    <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Upload Image</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <input type="file" name="image">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+                    <button type="submit" class="btn btn-primary" id="modal-confirm_delete" onclick="">Image
+                        Upload</button>
+                    </form>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
 @endsection
 @section('scripts')
     <script>
@@ -92,6 +125,11 @@
             var modal = $(this);
             modal.find('form').attr('action', action);
         });
+        $('#imageModal').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget);
+            var action = button.data('action');
+            var modal = $(this);
+            modal.find('form').attr('action', action);
+        });
     </script>
-
 @endsection

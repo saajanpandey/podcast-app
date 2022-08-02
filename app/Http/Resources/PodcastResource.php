@@ -18,7 +18,7 @@ class PodcastResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'status' => $this->status,
-            'category' => $this->category->title,
+            'category' => CategoryResource::collection($this->categories),
             'artist' => $this->artist->name,
             'image' => asset('/uploads/images/' . $this->image),
             'audio' => asset('/uploads/audios/' . $this->audio),

@@ -4,10 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
+use App\Traits\ImageTrait;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
+    use ImageTrait;
+    public $imageDir = '/uploads/category';
     /**
      * Display a listing of the resource.
      *
@@ -38,6 +41,9 @@ class CategoryController extends Controller
     public function store(CategoryRequest $request)
     {
         $data = $request->except('_token');
+        if ($request->hasFile('image')) {
+            $data['image'] = $this->uploadImage($this->imageDir, $request->image);
+        }
         Category::create($data);
         return redirect()->route('category.index')->with('create', 'Category Created Successfully !');
     }
@@ -90,7 +96,28 @@ class CategoryController extends Controller
     public function destroy($id)
     {
         $categories = Category::find($id);
+        if (!empty($categories->image)) {
+            $this->removeImage($this->imageDir, $categories->image);
+        }
         $categories->delete();
         return redirect()->route('category.index')->with('delete', 'Category Deleted Successfully !');
+    }
+
+    public function categoryUpdateImage(Request $request, $id)
+    {
+        $request->validate([
+            'image' => 'required|mimes:jpeg,png,jpg',
+        ]);
+        $category = Category::find($id);
+        if (!empty($category->image)) {
+            $this->removeImage($this->imageDir, $category->image);
+            $category->image = $this->uploadImage($this->imageDir, $request->image);
+            $category->save();
+            return redirect()->route('category.index')->with('update', 'Image Updated Successfully!');
+        } else {
+            $category->image = $this->uploadImage($this->imageDir, $request->image);
+            $category->save();
+            return redirect()->route('category.index')->with('update', 'Image Updated Successfully!');
+        }
     }
 }

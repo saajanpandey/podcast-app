@@ -37,6 +37,7 @@ Route::group(['prefix' => 'system'], function () {
         $route->resource('/podcasts', PodcastController::class);
         $route->post('/image/upload/{id}', [PodcastController::class, 'updateImage'])->name('podcast.image');
         $route->post('/audio/upload/{id}', [PodcastController::class, 'updateAudio'])->name('podcast.audio');
+        $route->post('/category/upload/{id}', [CategoryController::class, 'categoryUpdateImage'])->name('category.image');
         $route->get('/feedbacks', [FeedbackController::class, 'index'])->name('feedback.index');
         $route->resource('/category', CategoryController::class);
     });
